@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+  
+</body>
+
+</html><!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapVibe - All-in-One Video Downloader</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --accent: #ec4899;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #1e293b;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: 'Khmer OS Siemreap', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 650px;
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .logo-area h1 {
+            margin: 0 0 10px;
+            font-size: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .logo-area p {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+
+        .platform-icons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(99, 102, 241, 0.1);
+            color: #818cf8;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .input-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 16px 20px;
+            background-color: #090d16;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .download-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .download-btn:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
+
+        .loading-spinner {
+            display: none;
+            margin-top: 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-card {
+            display: none;
+            margin-top: 25px;
+            background: #090d16;
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            text-align: left;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .video-info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .video-thumb {
+            width: 100px;
+            height: 60px;
+            background: #1e293b;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .video-details h4 {
+            margin: 0 0 5px;
+            font-size: 15px;
+            color: var(--text-main);
+        }
+
+        .video-details span {
+            font-size: 12px;
+            color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .action-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-download-file {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            background: var(--success);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .btn-download-file:hover {
+            background: #059669;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="logo-area">
+            <h1>SnapVibe</h1>
+            <p>ទាញយកវីដេអូ និងរូបភាពកម្រិតខ្ពស់យ៉ាងរលូន</p>
+        </div>
+
+        <div class="platform-icons">
+            <span class="badge">YouTube</span>
+            <span class="badge">TikTok</span>
+            <span class="badge">Facebook</span>
+        </div>
+
+        <div class="input-box">
+            <input type="text" id="urlInput" placeholder="បិទភ្ជាប់តំណភ្ជាប់ (URL) នៅទីនេះ...">
+        </div>
+        
+        <button class="download-btn" onclick="handleProcess()">စတင်ទាញយក (Download)</button>
+
+        <div class="loading-spinner" id="loadingSection">
+            <div class="spinner"></div>
+            កំពុងវិភាគតំណភ្ជាប់ និងរៀបចំឯកសារ...
+        </div>
+
+        <div class="result-card" id="resultSection">
+            <div class="video-info">
+                <div class="video-thumb" style="display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-muted);">Preview</div>
+                <div class="video-details">
+                    <h4 id="videoTitleText">វីដេអូពីប្រព័ន្ធសង្គម</h4>
+                    <span>រកឃើញទិន្នន័យជោគជ័យ</span>
+                </div>
+            </div>
+            <div class="action-links">
+                <a href="#" id="hdDownloadLink" class="btn-download-file" target="_blank">📥 ទាញយកវីដេអូគុណភាពខ្ពស់ (HD)</a>
+                <a href="#" id="audioDownloadLink" class="btn-download-file" style="background: var(--primary);" target="_blank">🎵 ទាញយកជាអូឌីយ៉ូ (MP3)</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 SnapVibe Engine. រក្សាសិទ្ធិគ្រប់យ៉ាង។</p>
+    </footer>
+
+    <script>
+        function handleProcess() {
+            const url = document.getElementById('urlInput').value.trim();
+            const loadingSection = document.getElementById('loadingSection');
+            const resultSection = document.getElementById('resultSection');
+            const videoTitleText = document.getElementById('videoTitleText');
+            const hdDownloadLink = document.getElementById('hdDownloadLink');
+            const audioDownloadLink = document.getElementById('audioDownloadLink');
+
+            if (!url) {
+                alert('សូមបញ្ចូលតំណភ្ជាប់ (URL) ជាមុនសិន!');
+                return;
+            }
+
+            // បង្ហាញផ្ទាំង Loading
+            resultSection.style.display = 'none';
+            loadingSection.style.display = 'block';
+
+            // จำลองការដំណើរការវិភាគតំណភ្ជាប់ (Simulation ស្ដង់ដារដូចវេបសាយធំៗ)
+            setTimeout(() => {
+                loadingSection.style.display = 'none';
+                resultSection.style.display = 'block';
+
+                let platformName = "Platform";
+                if (url.includes('youtube') || url.includes('youtu.be')) platformName = "YouTube Video";
+                else if (url.includes('tiktok')) platformName = "TikTok Video";
+                else if (url.includes('facebook') || url.includes('fb.watch')) platformName = "Facebook Video";
+
+                videoTitleText.innerText = `ឯកសារទាញយក៖ ${platformName}`;
+                
+                // ភ្ជាប់ទៅប្រព័ន្ធទាញយកសុវត្ថិភាពដោយស្វ័យប្រវត្តិពេលចុច
+                hdDownloadLink.href = `https://cobalt.tools/?u=${encodeURIComponent(url)}`;
+                audioDownloadLink.href = `https://cobalt.tools/?u=${encodeURIComponent(url)}`;
+            }, 1200);
+        }
+    </script>
+</body>
+</html>
