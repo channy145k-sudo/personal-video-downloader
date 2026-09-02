@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+void main() {
+  runApp(const MaterialApp(
+    home: AdFreeYouTubeApp(),
+    debugShowCheckedModeBanner: false,
+  ));
+}
+
+class AdFreeYouTubeApp extends StatefulWidget {
+  const AdFreeYouTubeApp({super.key});
+
+  @override
+  State<AdFreeYouTubeApp> createState() => _AdFreeYouTubeAppState();
+}
+
+class _AdFreeYouTubeAppState extends State<AdFreeYouTubeApp> {
+  late final WebViewController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (String url) {
+            // បញ្ចូល JavaScript ដើម្បីលាក់ផ្ទាំងពាណិជ្ជកម្ម (Ads elements) តាមរចនាសម្ព័ន្ធ HTML របស់ YouTube
+            _controller.runJavaScript("""
+              setInterval(() => {
+                // លាក់ Video Ads ខាងក្នុង
+                const ads = document.querySelectorAll('.ad-showing, .video-ads, ytd-promoted-sparkles-web-renderer');
+                ads.forEa((ad) => ad.style.display = 'none');
+                
+                // រំលងផ្សាយពាណិជ្ជកម្មស្វ័យប្រវត្តិប្រសិនបើមានប៊ូតុង Skip
+                const skipButton = document.querySelector('.ytp-ad-skip-button, .ytp-ad-overlay-close-button');
+                if (skipButton) { skipButton.click(); }
+              }, 500);
+            """);
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse('https://www.youtube.com'));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: WebViewWidget(controller: _controller),
+      ),
+    );
+  }
+}
